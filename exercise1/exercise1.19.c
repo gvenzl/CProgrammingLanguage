@@ -2,25 +2,18 @@
 #define MAXLINE 1000
 
 int getnextline(char line[], int maxline);
+void reverse(char line[]);
 void copy(char to[], char from[]);
 
 main() {
   int len;
   int max;
   char line[MAXLINE];
-  char longest[MAXLINE];
   
   max = 0;
   while ((len = getnextline(line, MAXLINE)) > 0) {
-    if (len > max) {
-      max = len;
-      copy(longest, line);
-    }
-  }
-  if (max > 0) {
-    printf("Line length: %d, line: %s", (max+1), longest);
-    if (longest[max-1] != '\n')
-      printf("...\n");
+    reverse(line);
+    printf("%s\n", line);
   }
   return 0;
 }
@@ -43,6 +36,24 @@ int getnextline(char s[], int limit) {
 void copy(char to[], char from[]) {
   int i;
   
-  for (i=0; (to[i] = from[i]) != '\0'; ++i)
+  for (i = 0; ((to[i] = from[i]) != '\0'); ++i)
     ;
+  
+  to[i] = '\0';
+}
+
+void reverse(char line[]) {
+  int len;
+  int i;
+  
+  for (len=0; line[len] != '\0'; ++len)
+    ;
+
+  char reverse[len+1];
+
+  for (i = len; i >= 0; --i)
+    reverse[len-i] = line[i-1];
+  reverse[len+1] = '\0';
+  
+  copy(line, reverse);
 }
